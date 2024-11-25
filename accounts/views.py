@@ -180,20 +180,20 @@ def cart(request):
             messages.success(request, 'Coupon applied successfully.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    if cart_obj:
+    # if cart_obj:
         
-        cart_total_in_paise = int(cart_obj.get_cart_total_price_after_coupon() * 100)
+    #     cart_total_in_paise = int(cart_obj.get_cart_total_price_after_coupon() * 100)
         
-        if cart_total_in_paise < 100:
-            messages.warning(
-                request, 'Total amount in cart is less than the minimum required amount (1.00 INR). Please add a product to the cart.')
-            return redirect('index')
+    #     if cart_total_in_paise < 100:
+    #         messages.warning(
+    #             request, 'Total amount in cart is less than the minimum required amount (1.00 INR). Please add a product to the cart.')
+    #         return redirect('index')
         
-        client = razorpay.Client(auth = (settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
-        payment = client.order.create(
-            {'amount': cart_total_in_paise, 'currency': 'INR', 'payment_capture': 1})
-        cart_obj.razorpay_order_id = payment['id']
-        cart_obj.save()
+    #     client = razorpay.Client(auth = (settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
+    #     payment = client.order.create(
+    #         {'amount': cart_total_in_paise, 'currency': 'INR', 'payment_capture': 1})
+    #     cart_obj.razorpay_order_id = payment['id']
+    #     cart_obj.save()
 
     context = {'cart': cart_obj, 'payment': payment, 'quantity_range': range(1, 6),}
     return render(request, 'accounts/cart.html', context)
@@ -380,7 +380,7 @@ def create_order(cart):
         order_id=cart.razorpay_order_id,
         payment_status="Paid",
         shipping_address=cart.user.profile.shipping_address,
-        payment_mode="Razorpay",
+        payment_mode="Mpesa",
         order_total_price=cart.get_cart_total(),
         coupon=cart.coupon,
         grand_total=cart.get_cart_total_price_after_coupon(),
