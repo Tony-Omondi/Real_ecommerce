@@ -1,7 +1,7 @@
 from django.urls import path
 from accounts.views import *
 from django.contrib.auth import views as auth_views
-
+from . import views
 urlpatterns = [
     #User view urls with login, register, logout, and email activation.
     path('login/', login_page, name="login"),
@@ -44,4 +44,7 @@ urlpatterns = [
 
     #Delete user account url
     path('delete-account/', delete_account, name='delete_account'),
+    path('make_purchase/', views.make_purchase, name='make_purchase'),
+
+    
 ]

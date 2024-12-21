@@ -12,7 +12,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # Security
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '03e9-102-0-13-100.ngrok-free.app']
+
+
 
 # Applications
 SITE_ID = 2
@@ -39,6 +41,10 @@ INSTALLED_APPS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CSRF_TRUSTED_ORIGINS = [
+    os.getenv('CSRF_TRUSTED_ORIGINS', 'https://03e9-102-0-13-100.ngrok-free.app').split(',')[0],  # Default to ngrok
+]
+
 
 # Facebook API Keys
 SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY')
@@ -47,18 +53,19 @@ SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": os.getenv("GOOGLE_CLIENT_ID"),  # Google Client ID from .env
-            "secret": os.getenv("GOOGLE_CLIENT_SECRET"),  # Google Client Secret from .env
+            "client_id": "951120066539-a4rb2djago8slc7b0elk88pp4euab5er.apps.googleusercontent.com",   # Google Client ID from .env
+            "secret": "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",   # Google Client Secret from .env
             "key": "",  # Leave empty unless required
         },
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},
+        "REDIRECT_URI": "https://cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/674342c70030f6072b3b",
     },
 
     "facebook": {
         'APP': {
-            'client_id': os.getenv("SOCIAL_AUTH_FACEBOOK_KEY"),  # Facebook Client ID from .env
-            'secret': os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET"),  # Facebook Client Secret from .env
+            'client_id': "555185680843851",  # Facebook Client ID from .env
+            'secret': "97643d27fc7d6f798986a4aaeafd7b23",  # Facebook Client Secret from .env
         },
         'METHOD': 'oauth2',
         'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
